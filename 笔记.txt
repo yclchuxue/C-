@@ -24,43 +24,61 @@ C++ 笔记
                                             //起的一个string,返回一个val同内型的值。注
                                             //意val一定要支持'+'运算
 
-4. equal(iter_1, iter_2, iter)              //iter_1和iter_2是第一个容器的迭代器，表示
-                                            //范围，iter是第二个容器的迭代器，表示开始位
-                                            //置，该算法判断，两个序列是否保存相同的值，算
-                                            //法默认iter对应容器大于iter_1到iter_2，返
-                                            //回0或1
+4. equal(iter_1, iter_2, iter)              //iter_1和iter_2是第一个容器的迭代器，表
+                                            //示范围，iter是第二个容器的迭代器，表示开
+                                            //始位置，该算法判断，两个序列是否保存相同
+                                            //的值，算法默认iter对应容器大于iter_1到
+                                            //iter_2，返回0或1
 
-5. fill(iter_1, iter_2, val)                //将迭代器iter_1到iter_2之间的所有值都改为val
+5. fill(iter_1, iter_2, val)                //将迭代器iter_1到iter_2之间的所有值都改
+                                            //为val
 
-6. fill_n(iter_1, size, val)                //将从迭代器iter_1开始的size个元素的值改为val
+6. fill_n(iter_1, size, val)                //将从迭代器iter_1开始的size个元素的值改
+                                            //为val
 
-7. back_inserter(nums)                      //nums为容器名，该算法返回一个插入迭代器，给该
-                                            //插入迭代器赋值相当于向该容器添加元素，
+7. back_inserter(nums)                      //nums为容器名，该算法返回一个插入迭代器，
+                                            //给该插入迭代器赋值相当于向该容器添加元素，
 
-8. copy(iter_1, iter_2, iter)               //iter_1和iter_2是第一个容器的迭代器，表示范围
-                                            //iter是第二个容器的迭代器，表示开始位置，该算法
-                                            //将iter_1到iter_2之间的元素拷贝到iter开始位置
-                                            //之后
+8. copy(iter_1, iter_2, iter)               //iter_1和iter_2是第一个容器的迭代器，表示
+                                            //范围iter是第二个容器的迭代器，表示开始位置，
+                                            //该算法将iter_1到iter_2之间的元素拷贝到iter
+                                            //开始位置之后
 
-9. replace(iter_1, iter_2, val_1, val_2)    //该算法将iter_1到iter_2之间的val_1全部修改为
-                                            //val_2（在容器上修改）
+9. replace(iter_1, iter_2, val_1, val_2)    //该算法将iter_1到iter_2之间的val_1全部
+                                            //修改为val_2（在容器上修改）
 
 10.replace_copy(iter_1, iter_2, iter, val_1, val_2)
-                                            //将迭代器iter_1到iter_2之间的所有的值拷贝到iter
-                                            //迭代器上，且该范围内的等于val_1的值该为val_2，
-                                            //(原容器中不修改)，如果想拷贝到一个空容器中，无法
-                                            //使用begin时可以使用插入迭代器
+                                            //将迭代器iter_1到iter_2之间的所有的值拷贝
+                                            //到iter迭代器上，且该范围内的等于val_1的值
+                                            //该为val_2，(原容器中不修改)，如果想拷贝到
+                                            //一个空容器中，无法使用begin时可以使用插入迭
+                                            //代器
 
-11.unique(begin, end)                       //将迭代器范围内，相邻且相同的元素只留一个，其他放
-                                            //到容器末尾，并返回指向第一个放到后面去的元素的迭
-                                            //代器。可以配合sort排序函数和erase删除来去重
+11.unique(begin, end)                       //将迭代器范围内，相邻且相同的元素只留一个，
+                                            //其他放到容器末尾，并返回指向第一个放到后面
+                                            //去的元素的迭代器。可以配合sort排序函数和
+                                            //erase删除来去重
 
 12.sort(strs.begin(), strs.end())           //将strs按升序排序
 
-13.sort(strs.begin(), strs.end(), isShorter)//按isSshorter中制定的规则排序(假设规则为按长度排序)
+13.sort(strs.begin(), strs.end(), isShorter)//按isSshorter中制定的规则排序(假设规则为按长
+                                            //度排序)第三个参数为谓词
 
 14.stable_sort(strs.begin(), strs.end())    //与sort一致
 
 15.stable_sort(strs.begin(), strs.end(), isShorter)
-                                            //按isSshorter中制定的规则排序，(假设规则为按长度排序)
-                                            //长度相等的保持原顺序不变
+                                            //按isSshorter中制定的规则排序，(假设规则为按
+                                            //长度排序)长度相等的保持原顺序不变，第三个参数
+                                            //为谓词
+
+16.find_if(iter_1, iter_2, lambda)          //迭代器iter_1和iter_2表示范围，谓词lambda为
+                                            //可调用表达式,将iter_1到iter_2中的元素依次带
+                                            //入lambda中,直到返回值满足条件
+
+19.for_each(iter_1, iter_2, lambda)         //将迭代器iter_1到iter_2之间的所有值加依次带入
+                                            //lambda中.
+
+20.count_if(iter_1, iter_2, lambda)         //将迭代器iter_1到iter_2之间的所有值加依次带入
+                                            //lambda中，返回条件为真的个数.
+
+21.
