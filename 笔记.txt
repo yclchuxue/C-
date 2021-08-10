@@ -1,6 +1,14 @@
 C++ 笔记
 
 泛型算法
+××××××××××××××××××××××××
+为了实现与数据结构的分离，为了实现通用性，算法根本就不知道容器的存在。
+算法访问数据的唯一通道是迭代器。是否改变容器大小，完全是迭代器的选择
+和责任。当我们向 fill_n 传递 back_inserter 时，虽然最终效果是向
+容器添加了新元素，但对 fill_n 来说，根本不知道这回事儿。它仍然像往
+常一样（通过迭代器）向元素赋予新值，只不过这次是通过 back_inserter
+来赋值，而 back_inserter 选择将新值添加到了容器而已。
+××××××××××××××××××××××××
 
 1. find(iter_1, iter_2, val)                //在迭代器iter_1到iter_2之间寻找值val，
                                             //找到则返回一个指向val的迭代器，否则返回
@@ -47,4 +55,12 @@ C++ 笔记
                                             //到容器末尾，并返回指向第一个放到后面去的元素的迭
                                             //代器。可以配合sort排序函数和erase删除来去重
 
-12.
+12.sort(strs.begin(), strs.end())           //将strs按升序排序
+
+13.sort(strs.begin(), strs.end(), isShorter)//按isSshorter中制定的规则排序(假设规则为按长度排序)
+
+14.stable_sort(strs.begin(), strs.end())    //与sort一致
+
+15.stable_sort(strs.begin(), strs.end(), isShorter)
+                                            //按isSshorter中制定的规则排序，(假设规则为按长度排序)
+                                            //长度相等的保持原顺序不变
