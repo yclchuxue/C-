@@ -1,0 +1,50 @@
+C++ 笔记
+
+泛型算法
+
+1. find(iter_1, iter_2, val)                //在迭代器iter_1到iter_2之间寻找值val，
+                                            //找到则返回一个指向val的迭代器，否则返回
+                                            //第儿个参数
+
+2. count(iter_1, iter_2, val)               //在迭代器iter_1到iter_2之间统计值val出
+                                            //现的次数，并返回出现的次数，如果没有出现
+                                            //则为0
+
+3. accumulate(iter_1, iter_2, val)          //将迭代器iter_1到iter_2之间的所有值加到
+                                            //val上，注意加是拼接的意思，例如是string
+                                            //类型则运行结束后是一个所有string连接到一
+                                            //起的一个string,返回一个val同内型的值。注
+                                            //意val一定要支持'+'运算
+
+4. equal(iter_1, iter_2, iter)              //iter_1和iter_2是第一个容器的迭代器，表示
+                                            //范围，iter是第二个容器的迭代器，表示开始位
+                                            //置，该算法判断，两个序列是否保存相同的值，算
+                                            //法默认iter对应容器大于iter_1到iter_2，返
+                                            //回0或1
+
+5. fill(iter_1, iter_2, val)                //将迭代器iter_1到iter_2之间的所有值都改为val
+
+6. fill_n(iter_1, size, val)                //将从迭代器iter_1开始的size个元素的值改为val
+
+7. back_inserter(nums)                      //nums为容器名，该算法返回一个插入迭代器，给该
+                                            //插入迭代器赋值相当于向该容器添加元素，
+
+8. copy(iter_1, iter_2, iter)               //iter_1和iter_2是第一个容器的迭代器，表示范围
+                                            //iter是第二个容器的迭代器，表示开始位置，该算法
+                                            //将iter_1到iter_2之间的元素拷贝到iter开始位置
+                                            //之后
+
+9. replace(iter_1, iter_2, val_1, val_2)    //该算法将iter_1到iter_2之间的val_1全部修改为
+                                            //val_2（在容器上修改）
+
+10.replace_copy(iter_1, iter_2, iter, val_1, val_2)
+                                            //将迭代器iter_1到iter_2之间的所有的值拷贝到iter
+                                            //迭代器上，且该范围内的等于val_1的值该为val_2，
+                                            //(原容器中不修改)，如果想拷贝到一个空容器中，无法
+                                            //使用begin时可以使用插入迭代器
+
+11.unique(begin, end)                       //将迭代器范围内，相邻且相同的元素只留一个，其他放
+                                            //到容器末尾，并返回指向第一个放到后面去的元素的迭
+                                            //代器。可以配合sort排序函数和erase删除来去重
+
+12.
