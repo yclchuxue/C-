@@ -37,7 +37,8 @@ C++ 笔记
                                             //为val
 
 7. back_inserter(nums)                      //nums为容器名，该算法返回一个插入迭代器，
-                                            //给该插入迭代器赋值相当于向该容器添加元素，
+                                            //给该插入迭代器赋值相当于向该容器尾部添加
+                                            //元素，但该容器必须支持push_back()
 
 8. copy(iter_1, iter_2, iter)               //iter_1和iter_2是第一个容器的迭代器，表示
                                             //范围iter是第二个容器的迭代器，表示开始位置，
@@ -73,12 +74,28 @@ C++ 笔记
 
 16.find_if(iter_1, iter_2, lambda)          //迭代器iter_1和iter_2表示范围，谓词lambda为
                                             //可调用表达式,将iter_1到iter_2中的元素依次带
-                                            //入lambda中,直到返回值满足条件
+                                            //入lambda中,直到返回值满足条件，lambda只能带
+                                            //一个参数，即一元谓词
 
 19.for_each(iter_1, iter_2, lambda)         //将迭代器iter_1到iter_2之间的所有值加依次带入
                                             //lambda中.
 
 20.count_if(iter_1, iter_2, lambda)         //将迭代器iter_1到iter_2之间的所有值加依次带入
-                                            //lambda中，返回条件为真的个数.
+                                            //lambda中，返回条件为真的个数.lambda只能带
+                                            //一个参数，即一元谓词
 
-21.
+21.tansfrom(iter_1, iter_2, iter, lambda)   //前两个迭代器表示范围，第三个迭代器表示位置，将
+                                            //iter_1到iter_2中所有元素带入lambda中，再输
+                                            //出到iter中，iter可以与前两迭代器相同。
+
+22.front_inserter(list)                     //list为一个容器，返回一个插入迭代器，给该插入
+                                            //迭代器赋值相当于向该容器头部插入一个元素，该
+                                            //容器必须支持push_front
+
+23.inserter(list, iter)                     //list为一个容器，iter为指向该容器的一个迭代器，
+                                            //返回一个插入迭代器，给该插入迭代器赋值相当于在
+                                            //iter之前插入一个元素
+
+24.unique_copy(iter_1, iter_2, iter)        //将迭代器iter_1到iter_2之间的相邻且相等的值去
+                                            //重，将去重后的copy到iter中,iter可以是插入迭
+                                            //代器
