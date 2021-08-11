@@ -4,9 +4,15 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <functional>
 #include <vector>
 
 using namespace std;
+/*
+using placeholders::_1;
+using placeholders::_2;
+*///       ||
+using namespace placeholders;
 
 bool isShorter(const string &s1, const string &s2)
 {
@@ -31,6 +37,14 @@ int main()
     //sort(strs.begin(), strs.end());                  //按字典序排序
 
     stable_sort(strs.begin(), strs.end(), isShorter);  //按string长度的升序排序，并维持相等元素的原有顺序
+
+    for(auto str : strs)
+    {
+        cout << str << "\t";
+    }
+    cout << endl;
+
+    stable_sort(strs.begin(), strs.end(), bind(isShorter, _2, _1));  //按string长度的降序排序，并维持相等元素的原有顺序
 
     for(auto str : strs)
     {
