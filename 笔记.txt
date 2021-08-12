@@ -99,3 +99,38 @@ C++ 笔记
 24.unique_copy(iter_1, iter_2, iter)        //将迭代器iter_1到iter_2之间的相邻且相等的值去
                                             //重，将去重后的copy到iter中,iter可以是插入迭
                                             //代器
+
+迭代器
+
+1. 插入迭代器(泛型算法中有解释)
+
+back_inserter, front_inserter, inserter
+
+2. 流迭代器
+
+istream_inserter<int> in_iter(is);              //in_iter从输入流is中读取类型为int的值
+                                                //例如is未以读方式打开的文件或cin从键盘
+                                                //输入（in_iter(cin)）
+
+istream_inserter<int> eof;                      //表示尾后位置, 例while(in_iter != eof)
+                                                //表示从键盘读取int型数据，直到EOF
+
+*in_iter;                                       //返回从流中读取的值
+
+in_iter++, ++in_iter;                           //从输入流中读取下一个值
+
+ostream_inserter<int> out_iter(os);             //out_iter将类型为int的值写入到os中
+
+ostream_inserter<int> out_iter(os, d);          //out_iter将类型为int的值写入到输出流os中
+                                                //每个值后都要输出一个d， d指向一个空字符结
+                                                //尾的字符数组
+
+out_iter = val;                                 //用<<运算符将val写入到out_iter所绑定的
+                                                //ostream中。（类型必须兼容）
+
+3. 反向迭代器
+
+nums.rbegin(), rend(), crbegin(), crend()
+
+iter.base()                                     //将返回一个普通迭代器，返回的迭代器与iter相邻
+
