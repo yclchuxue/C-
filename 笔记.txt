@@ -134,3 +134,30 @@ nums.rbegin(), rend(), crbegin(), crend()
 
 iter.base()                                     //将返回一个普通迭代器，返回的迭代器与iter相邻
 
+
+动态内存
+×××××××××××××××××××××××××××××××
+
+×××××××××××××××××××××××××××××××
+unique_ptr 性质：
+
+1， 拥有他所指向的对象;
+
+2,  同一时刻只有一个unique_ptr指向一个指定的对象;
+
+3,  unique_ptr不支持拷贝和赋值， 但我们可以拷贝或赋值一个将要被销毁的uniqu_ptr，
+    例如函数返回一个unique_ptr（实际上是赋值或拷贝）;
+
+4,  利用reset或release操作将指针的所有权从一个unique_ptr转移到另一个unique_ptr;
+
+5,  unique_ptr不支持拷贝和赋值但是初始化时可以使用普通指针初始化, 但如果普通指针不是
+    new出的内存，在unique_ptr超出范围释放时会报错,即使new出的内存也会在unique_ptr
+    释放时造成空悬指针;
+
+weak_ptr 性质
+
+1,  一种指向share_ptr的指针， 赋值时不会增加share_ptr的次数;
+
+2,  当share_ptr释放时， weak_ptr所指对象也释放;
+
+3,  
