@@ -210,3 +210,23 @@ template <typename T> int swap(const T &val_1, const tansfrom &val_2);          
 template <unsigned N, unsigned M> int compare(const char (&p1)[N], sonst char (&p2)[M]);  
                                                                                 //非类型模板参数
 非类型模板参数指一个值而非类型-------C++ primer 580page
+
+
+
+
+
+
+
+
+
+
+现代操作系统笔记
+2.2.1缓存结构
+    CPU的缓存由若干个缓存行组成：（常见为64字节）
+                                    一个有效位（占一位 1bit）表示其是否有效
+                                    一个标记地址，用于标识其对应的物理地址
+                                    一些其他状态信息
+    
+    物理地址在逻辑上分为Tag，Set，Offset:
+                                    组（Set）
+                                    路（Way）
