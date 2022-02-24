@@ -99,6 +99,8 @@ memmory_pool::memmory_pool()
 		}
 	}
 
+	
+
 }
 
 NODE * memmory_pool :: my_malloc(int num){
@@ -108,17 +110,30 @@ NODE * memmory_pool :: my_malloc(int num){
 	case 1:
 		/* code */
 		if(HEAD[0].free_node != NULL){
+			cout << "SSSSSSSSS" << endl;
 			ret = HEAD[0].free_node;
 			HEAD[0].free_node = HEAD[0].free_node->next;
+			cout << "IIIIIIIIIIII" << endl;
 			if(HEAD[0].free_node != NULL){
 				HEAD[0].free_node->prev = NULL;
 			}
-			NODE *p = HEAD[0].used_node->next;
+			cout << "FFFFFFFFF" << endl;
+			NODE *p;
+			if(HEAD[0].used_node == NULL){
+				p = NULL;
+				cout << "BBBBBBBBBB" << endl;
+ 			}else{
+				cout << "AAAAAAAAA" << endl;
+				p = HEAD[0].used_node->next;
+			}
+			cout << "HHHHHHHHHHH" << endl;
 			p->prev = ret;
 			ret->next = p;
 			ret->prev = NULL;
+			cout << "PPPPPPPPP" << endl;
 			HEAD[0].used_node = ret;
 		}
+		cout << "QQQQQQQQQ" << endl;
 		break;
 	case 2:
 		if(HEAD[0].free_node != NULL){
