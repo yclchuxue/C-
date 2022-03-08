@@ -10,6 +10,7 @@ typedef struct node{
 	int colum;
 	char num;
 	char *data;
+	unsigned long start;
 	struct node *next;
 	struct node *prev;
 }NODE;
@@ -23,7 +24,6 @@ typedef struct cut_block{
 
 typedef struct mem_head{
 	int num;                 //该链表所存内存块的大小  1 2 4 8 16 32 64 128----
-	int start[10];           //内存起始地址
 	NODE *free_node;         //空闲链表
 	NODE *used_node;         //已使用链表
 	CUT_BLOCK *cut_block;         //分割的内存链表
@@ -39,17 +39,25 @@ private:
 
 	int used_sum;
 
+	unsigned long long start_malloc;
+	unsigned long long start_node;
+
 	int total = 10220;
 
 	void add_memmory();       //内存不足，再次分配
 
-
 public:
 	memmory_pool();           //构造函数
 
+	~memmory_pool();         //析构函数
+
 	NODE * my_malloc(int num);
 
+	char *m_malloc(int num);
+
 	void   my_free(NODE *pointer);
+
+	void   m_free(void *pointer);
 };
 
 
@@ -63,8 +71,12 @@ memmory_pool::memmory_pool()
 	if(mem_pool_pointer == NULL){
 		cout << "initialization failed" << endl;
 	}
+	printf("start = %p\n", mem_pool_pointer);
+	cout << "start_malloc = " << (unsigned long long)mem_pool_pointer<< endl;
+
+	start_malloc = (unsigned long long)mem_pool_pointer;
 	
-	used_sum = 0;
+	used_sum = -1;
 	/*
 	for(int i = 0; i < 7; ++i){
 		MAP.emplace(i, HEAD[i]);
@@ -78,12 +90,39 @@ memmory_pool::memmory_pool()
 		HEAD[i].used_node = NULL;
 		HEAD[i].cut_block = NULL;
 		NODE *pointer = HEAD[i].free_node;
+		int size = 1;
 		for(int j = 0; j < 8; ++j){
 			NODE *p = (NODE*)malloc(sizeof(NODE));
-			int count = used_sum + pow(2, i);
+			if(i == 0 && j == 0){
+				start_node = (unsigned long long)p;
+			}
+			size = pow(2, i);
+			int count = used_sum + size;
+			used_sum += size;
 			p->num = i;
 			p->colum = count;
 			p->data = &mem_pool_pointer[count];
+
+			//cout << i << "\t" << j << endl;
+			if(i == 0 && j == 0){
+			cout << "start_NODE = " << (unsigned long long)p << endl;
+			cout << "malloc = " << (unsigned long long)&mem_pool_pointer[count] << endl;
+			}
+			
+			if(i == 2 && j == 0){
+				printf("%p\t%p\n", &mem_pool_pointer[count], p);
+				cout << "NODE = " << (unsigned long long)p << endl;
+			}
+			/*
+			if(i == 0 && j == 1){
+				printf("%p\t%p\n", &mem_pool_pointer[count], p);
+				cout << (unsigned long long)p << endl;
+			}
+			
+			if(i == 1 && j == 1){
+				printf("%p\t%d\n", &mem_pool_pointer[count], count);
+			}
+			*/
 			if(HEAD[i].free_node == NULL)
 			{
 				HEAD[i].free_node = p;
@@ -97,138 +136,115 @@ memmory_pool::memmory_pool()
 				pointer = p;
 			}
 		}
+		used_sum -= size;
 	}
-
-	
 
 }
 
 NODE * memmory_pool :: my_malloc(int num){
 	NODE *ret;
-	switch (num)
-	{
-	case 1:
-		/* code */
-		if(HEAD[0].free_node != NULL){
-			cout << "SSSSSSSSS" << endl;
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			cout << "IIIIIIIIIIII" << endl;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			cout << "FFFFFFFFF" << endl;
-			NODE *p;
-			if(HEAD[0].used_node == NULL){
-				p = NULL;
-				cout << "BBBBBBBBBB" << endl;
- 			}else{
-				cout << "AAAAAAAAA" << endl;
-				p = HEAD[0].used_node->next;
-			}
-			cout << "HHHHHHHHHHH" << endl;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			cout << "PPPPPPPPP" << endl;
-			HEAD[0].used_node = ret;
-		}
-		cout << "QQQQQQQQQ" << endl;
-		break;
-	case 2:
-		if(HEAD[0].free_node != NULL){
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			NODE *p = HEAD[0].used_node->next;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			HEAD[0].used_node = ret;
-		}
-		break;
-	case 4:
-		if(HEAD[0].free_node != NULL){
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			NODE *p = HEAD[0].used_node->next;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			HEAD[0].used_node = ret;
-		}
-		break;
-	case 8:
-		if(HEAD[0].free_node != NULL){
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			NODE *p = HEAD[0].used_node->next;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			HEAD[0].used_node = ret;
-		}
-		break;
-	case 16:
-		if(HEAD[0].free_node != NULL){
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			NODE *p = HEAD[0].used_node->next;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			HEAD[0].used_node = ret;
-		}
-		break;
-	case 32:
-		if(HEAD[0].free_node != NULL){
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			NODE *p = HEAD[0].used_node->next;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			HEAD[0].used_node = ret;
-		}
-		break;
-	case 64:
-		if(HEAD[0].free_node != NULL){
-			ret = HEAD[0].free_node;
-			HEAD[0].free_node = HEAD[0].free_node->next;
-			if(HEAD[0].free_node != NULL){
-				HEAD[0].free_node->prev = NULL;
-			}
-			NODE *p = HEAD[0].used_node->next;
-			p->prev = ret;
-			ret->next = p;
-			ret->prev = NULL;
-			HEAD[0].used_node = ret;
-		}
-		break;
-	case 128:
-		break;
-	default:
-		break;
+	int n = 0;
+	if(num == 1){
+		n = 0;
+	}else if(num == 2){
+		n = 1;
+	}else if(num > 2 && num <= 4){
+		n = 2;
+	}else if(num > 4 && num <= 8){
+		n = 3;
+	}else if(num > 8 && num <= 16){
+		n = 4;
+	}else if(num > 16 && num <= 32){
+		n = 5;
+	}else if(num > 32 && num <= 64){
+		n = 6;
+	}else if(num > 64){
+		cout << "malloc fail!!!" << endl;
+		return NULL;
 	}
+	if(HEAD[n].free_node != NULL){
+			ret = HEAD[n].free_node;
+			HEAD[n].free_node = HEAD[n].free_node->next;
+			if(HEAD[n].free_node != NULL){
+				HEAD[n].free_node->prev = NULL;
+			}
+			NODE *p;
+			if(HEAD[n].used_node == NULL){
+				p = NULL;
+				ret->prev = NULL;
+				ret->next = NULL;
+				HEAD[n].used_node = ret;
+ 			}else{
+				p = HEAD[n].used_node;
+				p->prev = ret;
+				ret->next = p;
+				HEAD[n].used_node = ret;
+				ret->prev = NULL;
+			}
+	}
+
 	return ret;
 }
 
+
+char *memmory_pool :: m_malloc(int num){
+	NODE *ret;
+	char *ret1;
+	int n = 0;
+	if(num == 1){
+		n = 0;
+	}else if(num == 2){
+		n = 1;
+	}else if(num > 2 && num <= 4){
+		n = 2;
+	}else if(num > 4 && num <= 8){
+		n = 3;
+	}else if(num > 8 && num <= 16){
+		n = 4;
+	}else if(num > 16 && num <= 32){
+		n = 5;
+	}else if(num > 32 && num <= 64){
+		n = 6;
+	}else if(num > 64){
+		cout << "malloc fail!!!" << endl;
+		//return NULL;
+	}
+	if(HEAD[n].free_node != NULL){
+			ret = HEAD[n].free_node;
+			HEAD[n].free_node = HEAD[n].free_node->next;
+			if(HEAD[n].free_node != NULL){
+				HEAD[n].free_node->prev = NULL;
+			}
+			NODE *p;
+			if(HEAD[n].used_node == NULL){
+				p = NULL;
+				ret->prev = NULL;
+				ret->next = NULL;
+				HEAD[n].used_node = ret;
+ 			}else{
+				p = HEAD[n].used_node;
+				p->prev = ret;
+				ret->next = p;
+				HEAD[n].used_node = ret;
+				ret->prev = NULL;
+			}
+	}else{
+		cout << "don't have" << n << endl;
+		return NULL;
+	}
+
+	//cout << (unsigned long long)ret << endl;
+	//printf("NODE = %p\t%d\n", ret, sizeof(int));
+
+	return ret->data;
+}
+
 void  memmory_pool :: my_free(NODE *pointer){
-	int i = pointer->num-1;
+
+	cout << (unsigned long long)pointer << endl;
+	cout << "pointer->data = " << *(int *)pointer->data << endl; 
+	
+	int i = pointer->num;
 	NODE *p = pointer->prev;
 	if(p == NULL){
 		HEAD[i].used_node = pointer->next;
@@ -242,6 +258,7 @@ void  memmory_pool :: my_free(NODE *pointer){
 			p->prev = pointer;
 		}
 		HEAD[i].free_node = pointer;
+		pointer->prev = NULL;
 	}else{
 		NODE *p1 = pointer->next;
 		p->next = p1;
@@ -254,7 +271,50 @@ void  memmory_pool :: my_free(NODE *pointer){
 			p->prev = pointer;
 		}
 		HEAD[i].free_node = pointer;
-		
+		pointer->prev = NULL;
 	}
+	cout << "AAAAAAA = " << (unsigned long long)HEAD[i].free_node  << i << endl;
+	//pointer = NULL;
+}
 
+
+void  memmory_pool :: m_free(void *pointer){
+	unsigned long long point = (unsigned long long)pointer;
+	cout << "point = " << point << endl;
+	unsigned long long sum = point - start_malloc;
+	cout << "- = " << sum << endl;
+	int count = 0;
+	for(int i = 0; i < 7; i++)
+	{
+		if(sum == 0)
+		{
+			break;
+		}
+		for(int j = 0; j < 8; j++)
+		{
+			if(sum == 0)
+			{
+				break;
+			}
+			sum = sum - pow(2, i);
+			count++;
+		}
+	}
+	cout << "count = " << count << endl;
+
+	unsigned long long end = start_node + 48*count;
+
+	cout << "end = " << end << endl;
+
+	cout << "size = " << sizeof(NODE) << endl;
+
+	NODE *p = (NODE *)end;
+
+	my_free(p);
+
+}
+
+memmory_pool::~memmory_pool()
+{
+	free(mem_pool_pointer);
 }
