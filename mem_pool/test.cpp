@@ -7,15 +7,28 @@ using namespace std;
 
 int main()
 {
-    cout << "AAAAAAAAA" << endl;
     memmory_pool MEM;
-    cout << "BBBBBBBBB" << endl;
+    
+    char *p1 = MEM.m_malloc(1);
 
-    NODE *p = MEM.my_malloc(1);
+    *p1 = 'a';
 
-    cout << "DDDDDDDDD" << endl;
-    MEM.my_free(p);
-    cout << "FFFFFFFFF" << endl;
+
+/*
+    cout << "p1 = " << (unsigned long long)p1<< endl;
+    printf("p1 = %p\n", &p1);
+*/
+    MEM.m_free(p1);
+
+    char *p2 = MEM.m_malloc(1);
+    char *p3 = MEM.m_malloc(1);
+    char *p4 = MEM.m_malloc(1);
+    char *p5 = MEM.m_malloc(1);
+    char *p6 = MEM.m_malloc(1);
+    char *p7 = MEM.m_malloc(1);
+    char *p8 = MEM.m_malloc(1);
+    char *p9 = MEM.m_malloc(1);
+    //char *p = MEM.m_malloc(1);
 
     return 0;
 }
