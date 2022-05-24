@@ -52,6 +52,42 @@ public:
     }
 };
 
+class Solution1 {
+public:
+    vector<vector<int>> threeSum1(vector<int>& nums) 
+    {
+        int n = nums.size();
+        vector<vector<int>> rets;
+        sort(nums.begin(), nums.end());
+        if(n <= 2) return rets;
+
+        for(int c = n - 1; c >= 2 ;){
+            for(int a = 0, b = c - 1; a < b ; ){
+                int count = nums[a] + nums[b];
+                if(count < -1 * nums[c]){
+                    ++a;
+                }else if(count > -1 * nums[c]){
+                    --b;
+                }else{
+                    rets.push_back(vector<int>{nums[a], nums[b], nums[c]});
+                    do{
+                        ++a;
+                    }while(a < b && nums[a] == nums[a-1]);
+                    do{
+                        --b;
+                    }while(a < b && nums[b] == nums[b+1]);
+                }
+            }
+            do{
+                --c;
+            }while(c >= 2 && nums[c] == nums[c+1]);
+        }
+
+        return rets;
+    }
+    
+};
+
 int main()
 {
     vector<int> nums = {-1,0,1,2,-1,-4};
