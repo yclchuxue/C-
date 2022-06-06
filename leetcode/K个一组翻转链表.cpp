@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <tuple>
 
 using namespace std;
 
@@ -17,18 +18,70 @@ class Solution
 {
 public:
 
-    ListNode *reversalList(ListNode *head)
+    ListNode *reversalList(ListNode *head, int k)
     {
-        
+        ListNode *p1 = head;
+        ListNode *p2 = head;
+        ListNode *p3 = head;
+
+        if(k != 1){
+            p2 = p2->next;
+            p3 = p3->next;
+        }else{
+            return head;
+        }
+        bool tag = true;
+        int i = 0;
+        while(i != k-1){
+            if(tag){
+                tag = false;
+                p1->next = nullptr;
+            }else{
+                p1 = p2;
+                p2 = p3;
+            }
+            if(i != k-2){
+                p3 = p3->next;
+            }
+            p2->next = p1;
+            i++;
+        }
+        return p3;
     }
 
     ListNode *reverseKGroup(ListNode *head, int k)
     {
-
+        ListNode *p1 = head;
+        ListNode *p2 = head;
+        ListNode *P = head;
+        int num = 0;
+        bool tag = true;
+        while(p1 != nullptr){
+            ++num;
+            p1 = p1->next;
+            if(num == k){
+                ListNode* H = reversalList(p2, k);
+                p2->next = p1;
+                num = 0;
+                if(tag){
+                    head = H;
+                    P = p2;
+                    tag = false;
+                }else{
+                    P->next = H;
+                    P = p2;
+                }
+                p2 = p1;
+            }
+        }
+        if(num < k){
+            P->next = p2;
+        }
+        return head;
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     // 翻转一个子链表，并且返回新的头与尾
     pair<ListNode*, ListNode*> myReverse(ListNode* head, ListNode* tail) {
@@ -77,5 +130,18 @@ public:
 
 int main()
 {
+    ListNode* p5 = new ListNode(5);
+    ListNode* p4 = new ListNode(4, p5);
+    ListNode* p3 = new ListNode(3, p4);
+    ListNode* p2 = new ListNode(2, p3);
+    ListNode* p1 = new ListNode(1, p2);
 
+    Solution P;
+    ListNode * H = P.reverseKGroup(p1, 2);
+
+    while(H != nullptr){
+        cout << H->val << "\t";
+        H = H->next;
+    }
+    cout << endl;
 }
