@@ -44,29 +44,44 @@ int main()
 
     cout << "DDDDD" << endl;
 
-    cout << qbz[1] << endl;
+    // cout << qbz[2] << endl;
 
     status = cudaMemcpy(&b, &qbz[2], sizeof(int), cudaMemcpyDeviceToHost);
     if (status != cudaSuccess)
     {
         fprintf(stderr, "cudaMemcpy2 failed!");
+        cout << status << endl;
     }
 
     cout << "b = " << *b << endl;
 
-    cout << qbz[2] << endl;
+    // cout << qbz[2] << endl;
 
-    printf("qbz = %d\n", *qbz);
+    // printf("qbz = %d\n", *qbz);
 
     cudaIpcMemHandle_t *ptr1;
 
     cout << "CCCC" << endl;
 
-    cudaIpcGetMemHandle(ptr1, (void *)qbz);
+    // status = cudaIpcGetMemHandle(ptr1, (void *)qbz);
+    // if (status != cudaSuccess)
+    // {
+    //     fprintf(stderr, "cudaIpcGetMemHandle failed!");
+    //     cout << status << endl;
+    // }
 
-    cudaIpcOpenMemHandle((void **)&qbz, *ptr1, cudaIpcMemLazyEnablePeerAccess);
+    // status = cudaIpcOpenMemHandle((void **)&qbz, *ptr1, cudaIpcMemLazyEnablePeerAccess);
+    // if (status != cudaSuccess)
+    // {
+    //     fprintf(stderr, "cudaIpcOpenMemHandle failed!");
+    //     cout << status << endl;
+    // }
 
-    cout << *qbz << endl;
+    // cout << *qbz << endl;
 
     cudaFree((void *)qbz);
 }
+
+
+
+//g++ test_gpu_mem.cpp -L /usr/local/cuda/lib64 -lcudart
