@@ -1,0 +1,89 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution
+{
+public:
+    void nextPermutation(vector<int> &nums)
+    {
+        int len = nums.size();
+        if(len <= 1){
+            return ;
+        }
+        int t = len - 1, ice = -1;
+        int target = nums[t];
+        for(int i = len-2; i >= 0; ){
+            if(nums[i] < nums[t]){
+                target = nums[i];
+                t = i;
+                ice = 1;
+                break;
+            }else{
+                t = i;
+                i--;
+            }
+        }
+        
+        cout << ice << " ? " << t << endl;
+
+        if(ice == 1){
+            for(int i = len -1; i >= 0; i--){
+                if(nums[i] > target){
+                    cout << t << " " << i << endl;
+                    swap(nums[t], nums[i]);
+                    break;
+                }
+            }
+            reverse(nums.begin() + t + 1, nums.end());
+        }else{
+            reverse(nums.begin(), nums.end());
+        }
+        
+    }
+};
+
+int main()
+{
+    vector<int> nums = {3, 2, 1};
+
+    Solution P;
+
+    P.nextPermutation(nums);
+
+    for (auto iter = nums.begin(); iter != nums.end(); iter++)
+    {
+        cout << *iter << " ";
+    }
+    cout << endl;
+
+
+    return 0;
+}
+
+// 1 2 3 4
+// 1 2 4 3
+// 1 3 2 4
+// 1 3 4 2
+// 1 4 2 3
+// 1 4 3 2
+// 2 1 3 4
+// 2 1 4 3
+// 2 3 1 4
+// 2 3 4 1
+// 2 4 1 3
+// 2 4 3 1
+// 3 1 2 4
+// 3 1 4 2
+// 3 2 1 4
+// 3 2 4 1
+// 3 4 1 2
+// 3 4 2 1
+// 4 1 2 3
+// 4 1 3 2
+// 4 2 1 3
+// 4 2 3 1
+// 4 3 1 2
+// 4 3 2 1
