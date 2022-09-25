@@ -37,6 +37,19 @@ public:
         }
         return q;
     }
+
+    ListNode* getKthFromEnd1(ListNode* head, int k){
+        vector<ListNode*> lists;
+        int len = 0;
+        ListNode *p = head;
+        while(p){
+            len++;
+            lists.push_back(p);
+            p = p->next;
+        }
+        int index = len-k;
+        return lists[index];
+    }
 };
 
 int main()
