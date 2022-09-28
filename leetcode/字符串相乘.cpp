@@ -28,6 +28,30 @@ public:
         return ret.substr(index);
         return ret;
     }
+
+    string multiply1(string num1, string num2){
+        int m = num1.size(), n = num2.size();
+
+        string ret(m+n, '0');
+        // if(m ==0 || n == 0) return "0";
+        for(int i = n-1; i >= 0; i--){
+            for(int j = m-1; j >= 0; j--){
+                int nums = (num1[j] - '0') * (num2[i] - '0');
+                nums += ret[i+j+1] - '0';
+                ret[i+j+1] = nums%10 + '0';
+                if(nums >= 10){
+                    ret[i+j] = ret[i+j] - '0' + nums/10 + '0';
+                }
+            }   
+        }
+
+        int index = 0;
+        while(index<m+n-1 && ret[index] == '0'){
+            ++index;
+        }
+
+        return ret.substr(index);
+    }
 };
 
 int main()
