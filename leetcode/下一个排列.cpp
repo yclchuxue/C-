@@ -27,12 +27,12 @@ public:
             }
         }
         
-        cout << ice << " ? " << t << endl;
+        // cout << ice << " ? " << t << endl;
 
         if(ice == 1){
             for(int i = len -1; i >= 0; i--){
                 if(nums[i] > target){
-                    cout << t << " " << i << endl;
+                    // cout << t << " " << i << endl;
                     swap(nums[t], nums[i]);
                     break;
                 }
@@ -42,6 +42,52 @@ public:
             reverse(nums.begin(), nums.end());
         }
         
+    }
+};
+
+class Solution1
+{
+public:
+    void nextPermutation(vector<int> &nums)
+    {
+        int len_nums = nums.size();
+        if(len_nums < 2){
+            return ;
+        }
+
+        auto left = nums.end() - 2, right = nums.end() - 1, it = nums.end();
+        int ice = 0;
+
+        while(right != nums.begin()){
+            if( *left < *right){ 
+                int min = right - nums.begin();
+                int i = min + 1;
+                while(i < len_nums){
+                    if(nums[i] > *left){
+                        if(nums[i] < nums[min]){
+                            min = i;
+                        }
+                    }
+                    i++;
+                }
+
+                int num = *left;
+                *left = nums[min];
+                nums[min] = num;
+                ice = 1;
+                break;
+            }else{
+                left--;
+                right--;
+                it--;
+            }
+        }
+        if(ice){
+            sort(right, nums.end());
+        }else{
+            sort(nums.begin(), nums.end());
+        }
+        return;
     }
 };
 
