@@ -81,13 +81,91 @@ public:
     }
 };
 
+class Solution1{
+public:
+
+    int sort_q_one(vector<int>& nums, int l_index, int r_index){
+        
+        if(r_index-l_index+1 <= 1){
+            return 0;
+        }
+        
+        srand(time(0));
+        int point_index = rand() % (r_index-l_index+1);
+        int point = nums[point_index];
+        cout << "point_index = " << point_index << " point = " << point << endl;
+        nums[point_index] = nums[r_index];
+        int left = l_index;
+        int right = r_index;
+        int flag = 1;
+
+        while(left < right){
+            if(flag){
+                if(nums[left] <= point){
+                    nums[right] = nums[left];
+                    right--;
+                    flag = 0;
+                }else{
+                    left++;
+                }
+            }else{
+                if(nums[right] >= point){
+                    nums[left] = nums[right];
+                    left++;
+                    flag = 1;
+                }else{
+                    right--;
+                }
+            }
+        }
+
+        nums[left] = point;
+        return left;
+    }
+
+    void print(vector<int>& nums){
+        for(int i = 0; i < nums.size(); i++){
+            cout << nums[i] << "\t";
+        }
+        cout << endl;
+    }
+
+    int findKthLargest(vector<int>& nums, int k) {
+        int len_num = nums.size();
+        if(len_num == 1 && k == 1){
+            return nums[0];
+        }
+        int left = 0, right = len_num -1;
+        int x = sort_q_one(nums, left, right);
+        cout << "x = " << x << endl;
+        print(nums);
+        while(1){
+            if(x > k-1){
+                right = x;
+                x = sort_q_one(nums, left, right);
+                cout << "x1 = " << x << endl;
+                print(nums);
+            }else if(x < k-1){
+                left = x;
+                x = sort_q_one(nums, left, right);
+                cout << "x2 = " << x << endl;
+                print(nums);
+            }else{
+                return nums[k-1];
+            }
+        }
+
+        return nums[k-1];
+    }
+};
+
 int main(){
     vector<int> nums = {3,2,3,1,2,4,5,5,6};
     int k = 4;
 
-    Solution P;
+    Solution1 P;
 
-    cout << P.findKthLargest(nums, k) << endl;
+    cout << "ret = " << P.findKthLargest(nums, k) << endl;
 
     return 0;
 }
