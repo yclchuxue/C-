@@ -18,11 +18,25 @@ public:
     }
   }
 
+  int getint(string str, int &i) {
+    int len = str.size();
+    int ret = str[i] - '0';
+    for (i = i + 1; i < len; ++i) {
+      if (!ischar(str[i])) {
+        ret = ret * 10 + (str[i] - '0');
+      } else {
+        break;
+      }
+    }
+
+    return ret;
+  }
+
   int solve(string s) {
 
     stack<int> stk1;
     stack<char> stk2;
-    int len = s.size();
+    int len = s.size(), i = 0;
 
     // cout << s[0] - '0' << endl;
 
@@ -31,18 +45,20 @@ public:
     if (len == 1)
       return s[0] - '0';
 
-    if (!ischar(s[0]))
-      stk1.push(s[0] - '0');
-    else
+    if (!ischar(s[0])) {
+      int num = getint(s, i);
+      cout << "push " << num << endl;
+      stk1.push(num);
+    } else
       stk2.push(s[0]);
 
-    for (int i = 1; i < len; ++i) {
+    for (; i < len;) {
       if (ischar(s[i])) {
         if (!stk2.empty()) {
           char k = stk2.top();
-          if (k == '('){
+          if (k == '(') {
             stk2.push(s[i]);
-          }else if ((k == '+' || k == '-') && (s[i] == '*' || s[i] == '(')) {
+          } else if ((k == '+' || k == '-') && (s[i] == '*' || s[i] == '(')) {
             stk2.push(s[i]);
           } else if (s[i] == ')') {
             while (k != '(') {
@@ -53,7 +69,7 @@ public:
 
               stk2.pop();
 
-                cout << num2 << " " << k << " " << num1 << endl;
+              cout << num2 << " " << k << " " << num1 << endl;
 
               if (k == '*') {
                 stk1.push(num1 * num2);
@@ -72,9 +88,10 @@ public:
 
               k = stk2.top();
 
-              if(k == '(') stk2.pop();
+              if (k == '(')
+                stk2.pop();
             }
-            
+
           } else {
             while (1) {
               int num1 = stk1.top();
@@ -83,8 +100,8 @@ public:
               stk1.pop();
 
               stk2.pop();
-                
-                cout << num2 << " " << k << " " << num1 << endl;
+
+              cout << num2 << " " << k << " " << num1 << endl;
 
               if (k == '*') {
                 stk1.push(num1 * num2);
@@ -105,7 +122,7 @@ public:
               if ((k == '+' || k == '-') && (s[i] == '*' || s[i] == '(')) {
                 stk2.push(s[i]);
                 break;
-              }else if(k == '('){
+              } else if (k == '(') {
                 stk2.push(s[i]);
                 break;
               }
@@ -114,10 +131,12 @@ public:
         } else {
           stk2.push(s[i]);
         }
-      } else {
-        cout << "push " << s[i] << endl;
 
-        stk1.push(s[i] - '0');
+        ++i;
+      } else {
+        int num = getint(s, i);
+        cout << "push " << num << endl;
+        stk1.push(num);
       }
     }
 
@@ -132,25 +151,25 @@ public:
     // }
 
     while (!stk2.empty()) {
-        char k = stk2.top();
-        stk2.pop();
-        
-        int num1 = stk1.top();
-        stk1.pop();
-        int num2 = stk1.top();
-        stk1.pop();
+      char k = stk2.top();
+      stk2.pop();
 
-        cout << num2 << " " << k << " " << num1 << endl;
+      int num1 = stk1.top();
+      stk1.pop();
+      int num2 = stk1.top();
+      stk1.pop();
 
-        if (k == '*') {
-            stk1.push(num1 * num2);
-        }
-        if (k == '-') {
-            stk1.push(num2 - num1);
-        }
-        if (k == '+') {
-            stk1.push(num2 + num1);
-        }
+      cout << num2 << " " << k << " " << num1 << endl;
+
+      if (k == '*') {
+        stk1.push(num1 * num2);
+      }
+      if (k == '-') {
+        stk1.push(num2 - num1);
+      }
+      if (k == '+') {
+        stk1.push(num2 + num1);
+      }
     }
 
     // while(!stk1.empty()){
@@ -162,12 +181,12 @@ public:
   }
 };
 
-int main(){
-    string strs = "(1+(2+1*4)+7)";
+int main() {
+  string strs = "100+100";
 
-    Solution P;
+  Solution P;
 
-    cout << P.solve(strs) << endl;
+  cout << P.solve(strs) << endl;
 
-    return 0;
+  return 0;
 }
