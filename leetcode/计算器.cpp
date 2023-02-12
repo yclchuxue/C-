@@ -182,7 +182,7 @@ public:
 };
 
 int main() {
-  string strs = "100+100";
+  string strs = "(3+4)*(5+(2-3))";
 
   Solution P;
 

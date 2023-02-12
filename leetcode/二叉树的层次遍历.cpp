@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -13,6 +14,47 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+class Solution1 {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        queue<TreeNode*> que;
+
+        vector<vector<int>> rets;
+        vector<int> nums;
+
+        if(root == nullptr) return rets;
+
+        int nodenum = 1, clinum = 0;
+        que.push(root);
+
+        while(!que.empty()){
+            TreeNode* ptr = que.front();
+            que.pop();
+            nums.push_back(ptr->val);
+
+            if(ptr->left){
+                que.push(ptr->left);
+                clinum++;
+            }
+
+            if(ptr->right){
+                que.push(ptr->right);
+                clinum++;
+            }
+
+            nodenum--;
+            if(nodenum == 0){
+                nodenum = clinum;
+                clinum = 0;
+
+                rets.push_back(nums);
+                nums.clear();
+            }
+        }
+
+        return rets;
+    }
+};
 
 class Solution {
 public:
