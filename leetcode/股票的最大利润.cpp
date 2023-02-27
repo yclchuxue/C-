@@ -64,6 +64,7 @@ public:
                 min_price = min(prices[i], min_price);
             }
         }
+        
 
         return ret+ret0;
     }
