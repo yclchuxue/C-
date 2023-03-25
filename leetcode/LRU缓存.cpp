@@ -2,87 +2,74 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <map>
+#include <list>
 
 using namespace std;
 
-class LRUCache {
-public:
-    LRUCache(int capacity) {
-        count = capacity;
-    }
-    
-    int get(int key) {  
-        auto it = table.find(key);
-        if(it != table.end()){
-            li.splice(li.begin(), li, it->second);
-            return it->second->second;
-        }
-        return -1;
-    }
-    
-    void put(int key, int value) {
-        auto it = table.find(key);
-        if(it != table.end()){
-            li.splice(li.begin(), li, it->second);
-            it->second->second = value;
-            return ;
-        }
-
-        // 在list头部生成一个元素
-        li.emplace_front(key, value);
-        table[key] = li.begin();
-
-        if(table.size() > count){
-            table.erase(li.back().first);
-            li.pop_back();
-        }
-    }
-private:
-    unordered_map<int, list<pair<int,int>>::iterator> table;
-    list<pair<int, int>> li;
-    int count;
+struct ListNode{
+    int val;
+    ListNode* prev;
+    ListNode* next;
+    ListNode() :prev(nullptr), next(nullptr) {}
+    ListNode(int val_) : val(val_), next(nullptr), prev(nullptr) {}
+    ListNode(int val_, ListNode*pre, ListNode*nex) : val(val_), prev(pre), next(nex) {}
 };
 
-/**
- * Your LRUCache object will be instantiated and called as such:
- * LRUCache* obj = new LRUCache(capacity);
- * int param_1 = obj->get(key);
- * obj->put(key,value);
- */
-
-class LRUCache {
+class LRUCache1 {
+private:
+    int size_;
+    map<int, ListNode*> maps;
+    ListNode* head;
+    ListNode* tail;
 public:
-    LRUCache(int capacity) : _capacity(capacity) {
+    LRUCache1(int capacity) : size_(capacity){
+        head = new ListNode();
+        tail = new ListNode();
 
+        head->next = tail;
+        tail->prev = head;
     }
     
     int get(int key) {
-        auto it = _table.find(key);
-        if (it != _table.end()) {
-            _lru.splice(_lru.begin(), _lru, it->second);
-            return it->second->second;
+        if(maps.find(key) != maps.end()){
+
+        }else{
+            return -1;
         }
-        return -1;
     }
     
     void put(int key, int value) {
-        auto it = _table.find(key);
-        if (it != _table.end()) {
-            _lru.splice(_lru.begin(), _lru, it->second);
-            it->second->second = value;
-            return;
-        }
+        // if(maps)
+    }
+};
+
+struct Node{
+    int key;
+    int value;
+    Node() :key(0), value(0) {}
+    Node(int key, int value) : key(key), value(value) {}
+};
+
+class LRUCache {
+private:
+    int size_;
+    map<int, list<Node>::iterator> maps;
+    list<Node> lists;
+public:
+    LRUCache(int capacity) : size_(capacity){
         
-        _lru.emplace_front(key, value);
-        _table[key] = _lru.begin();
-        
-        if (_table.size() > _capacity) {
-            _table.erase(_lru.back().first);
-            _lru.pop_back();
+    }
+    
+    int get(int key) {
+        if(maps.find(key) != maps.end()){
+            if
+        }else{
+            return -1;
         }
     }
-private:
-    unordered_map<int, std::list<std::pair<int, int>>::iterator> _table;
-    std::list<std::pair<int, int>> _lru;
-    int _capacity;
+    
+    void put(int key, int value) {
+        
+    }
 };
